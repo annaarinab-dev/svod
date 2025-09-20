@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ежедневный отчёт</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+    input, select, button { width: 100%; margin: 10px 0; padding: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h2>Отчёт подразделения</h2>
+  <form id="reportForm">
+    <label>Подразделение:</label>
+    <select id="unit" required>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+    </select>
+
+    <label>Дата:</label>
+    <input type="date" id="date" required>
+
+    <label>Состоит:</label>
+    <input type="number" id="total" required>
+
+    <label>Поступило:</label>
+    <input type="number" id="income" required>
+
+    <label>Выбыло:</label>
+    <input type="number" id="outcome" required>
+
+    <button type="submit">Отправить</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById('reportForm');
+    const unitSelect = document.getElementById('unit');
+    const dateInput = document.getElementById('date');
+    const status = document.getElementById('status');
+
+    // Установка сегодняшней даты
+    dateInput.value = new Date().toISOString().split('T')[0];
+
+    // Сохранение подразделения
+    unitSelect.value = localStorage.getItem('unit') || 'A';
+    unitSelect.onchange = () => localStorage.setItem('unit', unitSelect.value);
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const payload = {
+        unit: unitSelect.value,
+        date: dateInput.value,
+        total: document.getElementById('total').value,
+        income: document.getElementById('income').value,
+        outcome: document.getElementById('outcome').value
+      };
+
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbz11zEUPGXdF0wSHHKXJLsV1kqbr-p5S_JGxseD4AV2uhvntE2Y2ZdTcFbftpuaGKkl/exec", {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        status.textContent = "✅ Отправлено!";
+        form.reset();
+        dateInput.value = new Date().toISOString().split('T')[0];
+        unitSelect.value = localStorage.getItem('unit') || 'A';
+      } catch {
+        status.textContent = "❌ Ошибка отправки";
+      }
+    };
+  </script>
+</body>
+</html>
+
+
+

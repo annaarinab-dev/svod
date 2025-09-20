@@ -2,14 +2,14 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Сводка</title>
+  <title>Ежедневная сводка</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: sans-serif;
       margin: 0;
       padding: 1em;
-      background-color: #f9f9f9;
+      background-color: #f2f2f2;
     }
 
     h2 {
@@ -56,6 +56,12 @@
       background-color: #0056b3;
     }
 
+    #statusMessage {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 1em;
+    }
+
     @media (max-width: 480px) {
       body {
         padding: 0.5em;
@@ -92,8 +98,21 @@
     <button type="submit">Отправить</button>
   </form>
 
+  <p id="statusMessage"></p>
+  <p style="text-align:center; margin-top:1em;">
+    <a href="history.html">📋 Посмотреть историю отправок</a>
+  </p>
+
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const dateInput = document.querySelector('input[name="date"]');
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.value = today;
+    });
+
     const form = document.getElementById('reportForm');
+    const status = document.getElementById('statusMessage');
+
     form.onsubmit = async (e) => {
       e.preventDefault();
       const formData = new URLSearchParams(new FormData(form));
@@ -104,11 +123,14 @@
           body: formData
         });
         const text = await res.text();
-        alert("✅ Отправлено: " + text);
+        status.textContent = "✅ Отправлено: " + text;
+        status.style.color = "green";
         form.reset();
+        document.querySelector('input[name="date"]').value = new Date().toISOString().split('T')[0];
       } catch (err) {
         console.error("Ошибка:", err);
-        alert("❌ Ошибка отправки");
+        status.textContent = "❌ Ошибка отправки";
+        status.style.color = "red";
       }
     };
   </script>

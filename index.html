@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!DOCTYPE html><html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>Ежедневная сводка</title>
@@ -12,67 +11,65 @@
       background-color: #f2f2f2;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 1em;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 1em;
+}
 
-    form {
-      max-width: 400px;
-      margin: auto;
-      background: white;
-      padding: 1em;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+form {
+  max-width: 400px;
+  margin: auto;
+  background: white;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
-    label {
-      display: block;
-      margin-bottom: 0.5em;
-      font-weight: bold;
-    }
+label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
 
-    input, select {
-      width: 100%;
-      padding: 0.6em;
-      margin-bottom: 1em;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1em;
-    }
+input, select {
+  width: 100%;
+  padding: 0.6em;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
 
-    button {
-      width: 100%;
-      padding: 0.8em;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 1em;
-      cursor: pointer;
-    }
+button {
+  width: 100%;
+  padding: 0.8em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+}
 
-    button:hover {
-      background-color: #0056b3;
-    }
+button:hover {
+  background-color: #0056b3;
+}
 
-    #statusMessage {
-      text-align: center;
-      font-weight: bold;
-      margin-top: 1em;
-    }
+#statusMessage {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 1em;
+}
 
-    @media (max-width: 480px) {
-      body {
-        padding: 0.5em;
-      }
+@media (max-width: 480px) {
+  body {
+    padding: 0.5em;
+  }
 
-      form {
-        padding: 0.8em;
-      }
-    }
-  </style>
-</head>
+  form {
+    padding: 0.8em;
+  }
+}  </style></head>
 <body>
   <h2>Ежедневная сводка</h2>
   <form id="reportForm">
@@ -83,24 +80,23 @@
       <option value="C">C</option>
     </select>
 
-    <label for="date">Дата:</label>
-    <input type="date" name="date" id="date" required>
+<label for="date">Дата:</label>
+<input type="date" name="date" id="date" required>
 
-    <label for="total">Состоит:</label>
-    <input type="number" name="total" id="total" required>
+<label for="total">Состоит:</label>
+<input type="number" name="total" id="total" required>
 
-    <label for="income">Поступило:</label>
-    <input type="number" name="income" id="income" required>
+<label for="income">Поступило:</label>
+<input type="number" name="income" id="income" required>
 
-    <label for="outcome">Выбыло:</label>
-    <input type="number" name="outcome" id="outcome" required>
+<label for="outcome">Выбыло:</label>
+<input type="number" name="outcome" id="outcome" required>
 
-    <button type="submit">Отправить</button>
-  </form>
+<button type="submit">Отправить</button>  </form>
 
   <p id="statusMessage"></p>
   <p style="text-align:center; margin-top:1em;">
-    <a href="history.html">📋 Посмотреть историю отправок</a>
+    <a href="history.html"> Посмотреть историю отправок</a>
   </p>
 
   <script>
@@ -123,19 +119,17 @@
           body: formData
         });
         const text = await res.text();
-        status.textContent = "✅ Отправлено: " + text;
+        status.textContent = " Отправлено: " + text;
         status.style.color = "green";
         form.reset();
         document.querySelector('input[name="date"]').value = new Date().toISOString().split('T')[0];
       } catch (err) {
         console.error("Ошибка:", err);
-        status.textContent = "❌ Ошибка отправки";
+        status.textContent = " Ошибка отправки";
         status.style.color = "red";
       }
     };
   </script>
 </body>
-</html>
-
-
+</html> 
 

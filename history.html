@@ -5,41 +5,12 @@
   <title>История отправок</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 1em;
-      background-color: #f2f2f2;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 1em;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    th, td {
-      padding: 0.6em;
-      border: 1px solid #ccc;
-      text-align: center;
-    }
-
-    th {
-      background-color: #007bff;
-      color: white;
-    }
-
-    @media (max-width: 480px) {
-      th, td {
-        font-size: 0.8em;
-        padding: 0.4em;
-      }
-    }
+    body { font-family: sans-serif; padding: 1em; background-color: #f2f2f2; }
+    h2 { text-align: center; margin-bottom: 1em; }
+    table { width: 100%; border-collapse: collapse; background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    th, td { padding: 0.6em; border: 1px solid #ccc; text-align: center; }
+    th { background-color: #007bff; color: white; }
   </style>
 </head>
 <body>
@@ -58,26 +29,25 @@
   </table>
 
   <script>
-    fetch('https://script.google.com/macros/s/AKfycbwU2gZO3kZzWSOWlSsGPy-VKbCexfBbDWqPiomJFTJTAszWmRwZm7FKBS1qjJqprU-H/exec')
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector('#historyTable tbody');
-        data.forEach(row => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${row['Дата']}</td>
-            <td>${row['Подразделение']}</td>
-            <td>${row['Состоит']}</td>
-            <td>${row['Поступило']}</td>
-            <td>${row['Выбыло']}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      })
-      .catch(err => {
-        console.error("Ошибка загрузки истории:", err);
-        document.body.innerHTML += "<p style='color:red; text-align:center;'>❌ Не удалось загрузить историю</p>";
+    // JSONP-подход, чтобы точно обойти CORS
+    function showData(data) {
+      const tbody = document.querySelector('#historyTable tbody');
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row['Дата']}</td>
+          <td>${row['Подразделение']}</td>
+          <td>${row['Состоит']}</td>
+          <td>${row['Поступило']}</td>
+          <td>${row['Выбыло']}</td>
+        `;
+        tbody.appendChild(tr);
       });
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://script.google.com/macros/s/AKfycby74qxT-VqsPSjMnIvf6ibiBGM98tXYd4fTnR74QUlogGnzydj6_7HAfKBoQ-OvsA_F/exec';
+    document.body.appendChild(script);
   </script>
 </body>
 </html>

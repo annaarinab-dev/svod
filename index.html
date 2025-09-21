@@ -1,135 +1,58 @@
-<!DOCTYPE html><html lang="ru">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Ежедневная сводка</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 1em;
-      background-color: #f2f2f2;
-    }
-
-h2 {
-  text-align: center;
-  margin-bottom: 1em;
-}
-
-form {
-  max-width: 400px;
-  margin: auto;
-  background: white;
-  padding: 1em;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5em;
-  font-weight: bold;
-}
-
-input, select {
-  width: 100%;
-  padding: 0.6em;
-  margin-bottom: 1em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1em;
-}
-
-button {
-  width: 100%;
-  padding: 0.8em;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1em;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-#statusMessage {
-  text-align: center;
-  font-weight: bold;
-  margin-top: 1em;
-}
-
-@media (max-width: 480px) {
-  body {
-    padding: 0.5em;
-  }
-
-  form {
-    padding: 0.8em;
-  }
-}  </style></head>
+  <title>Сводка</title>
+</head>
 <body>
-  <h2>Ежедневная сводка</h2>
+  <h2>Форма ежедневной сводки</h2>
   <form id="reportForm">
-    <label for="unit">Подразделение:</label>
-    <select name="unit" id="unit" required>
-      <option value="A">A</option>
-      <option value="B">B</option>
-      <option value="C">C</option>
-    </select>
+    <label>Подразделение:
+      <select name="unit">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+      </select>
+    </label><br><br>
 
-<label for="date">Дата:</label>
-<input type="date" name="date" id="date" required>
+    <label>Дата:
+      <input type="date" name="date" required>
+    </label><br><br>
 
-<label for="total">Состоит:</label>
-<input type="number" name="total" id="total" required>
+    <label>Состоит:
+      <input type="number" name="total" required>
+    </label><br><br>
 
-<label for="income">Поступило:</label>
-<input type="number" name="income" id="income" required>
+    <label>Поступило:
+      <input type="number" name="income" required>
+    </label><br><br>
 
-<label for="outcome">Выбыло:</label>
-<input type="number" name="outcome" id="outcome" required>
+    <label>Выбыло:
+      <input type="number" name="outcome" required>
+    </label><br><br>
 
-<button type="submit">Отправить</button>  </form>
-
-  <p id="statusMessage"></p>
-  <p style="text-align:center; margin-top:1em;">
-    <a href="history.html"> Посмотреть историю отправок</a>
-  </p>
+    <button type="submit">Отправить</button>
+  </form>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const dateInput = document.querySelector('input[name="date"]');
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.value = today;
-    });
-
     const form = document.getElementById('reportForm');
-    const status = document.getElementById('statusMessage');
-
     form.onsubmit = async (e) => {
       e.preventDefault();
       const formData = new URLSearchParams(new FormData(form));
 
       try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwU2gZO3kZzWSOWlSsGPy-VKbCexfBbDWqPiomJFTJTAszWmRwZm7FKBS1qjJqprU-H/exec', {
+        const res = await fetch('https://script.google.com/macros/s/АКТУАЛЬНЫЙ_URL/exec', {
           method: 'POST',
           body: formData
         });
         const text = await res.text();
-        status.textContent = " Отправлено: " + text;
-        status.style.color = "green";
+        alert("✅ Отправлено: " + text);
         form.reset();
-        document.querySelector('input[name="date"]').value = new Date().toISOString().split('T')[0];
       } catch (err) {
         console.error("Ошибка:", err);
-        status.textContent = " Ошибка отправки";
-        status.style.color = "red";
+        alert("❌ Ошибка отправки");
       }
     };
   </script>
 </body>
-</html> 
-
+</html>

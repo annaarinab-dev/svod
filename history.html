@@ -1,15 +1,12 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>История отправок</title>
+  <title>История отправок2</title>
   <style>
     body { font-family: sans-serif; padding: 1em; background-color: #f2f2f2; }
     h2 { text-align: center; }
-    table {
-      width: 100%; border-collapse: collapse; background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+    table { width: 100%; border-collapse: collapse; background: white; }
     th, td { padding: 0.6em; border: 1px solid #ccc; text-align: center; }
     th { background-color: #007bff; color: white; }
   </style>
@@ -33,8 +30,8 @@
     async function loadHistory() {
       try {
         const res = await fetch('https://script.google.com/macros/s/AKfycby74qxT-VqsPSjMnIvf6ibiBGM98tXYd4fTnR74QUlogGnzydj6_7HAfKBoQ-OvsA_F/exec');
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        const data = await res.json();
+        const text = await res.text(); // т.к. ответ идёт как HTML
+        const data = JSON.parse(text);
 
         const tbody = document.querySelector('#historyTable tbody');
         tbody.innerHTML = "";
@@ -42,11 +39,11 @@
         data.forEach(row => {
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td>${row["Дата"] || ""}</td>
-            <td>${row["подразделение"] || ""}</td>
-            <td>${row["состоит"] || ""}</td>
-            <td>${row["поступило"] || ""}</td>
-            <td>${row["выбыло"] || ""}</td>
+            <td>${row["Дата"] ?? ""}</td>
+            <td>${row["подразделение"] ?? ""}</td>
+            <td>${row["состоит"] ?? ""}</td>
+            <td>${row["поступило"] ?? ""}</td>
+            <td>${row["выбыло"] ?? ""}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -60,3 +57,4 @@
   </script>
 </body>
 </html>
+
